@@ -23,20 +23,15 @@
     <hr>
   
   <script>
-    $("#myForm").submit(function(event){
-      $("#load").css("visibility","visible");
-      event.preventDefault();
-      $("#gallery").empty();
-      $("#error").css("visibility","hidden");
+    var page = 1;
+    function SearchPhotos(page){
       var search = $("#search").val()
-      var url ="https://api.unsplash.com/search/photos?query="+search+"&client_id=nuMKqJjmwd8vONBQowjp3qT_IWR52INOxDcZz66BwdY&per_page=150"
-
+      var url ="https://api.unsplash.com/search/photos?query="+search+"&client_id=nuMKqJjmwd8vONBQowjp3qT_IWR52INOxDcZz66BwdY&page="+page+"&per_page=10"
       $.ajax({
         method: 'GET',
         url: url,
         success: function(data){
-          data.results.forEach(photo => {
-             if(data.total === 0){
+          if(data.total === 0){
             $("#error").css("visibility","visible");
           }
           console.log(data);
@@ -48,6 +43,20 @@
           });
         }
       })
+    }
+    $("#myForm").submit(function(event){
+      $("#load").css("visibility","visible");
+      event.preventDefault();
+      $("#gallery").empty();
+      $("#error").css("visibility","hidden");
+      page=1;
+      SearchPhotos(1);
+    })
+    window.addEventListener('scroll',() =>{
+      if(window.scrollY+ window.innerHeight >= document.documentElement.scrollHeight){
+        page = page + 1;
+        SearchPhotos(page);
+      }
     })
   </script>
   </body>
