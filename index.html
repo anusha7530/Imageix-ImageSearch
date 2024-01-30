@@ -53,7 +53,7 @@
       SearchPhotos(1);
     })
     window.addEventListener('scroll',() =>{
-      if(window.scrollY+ window.innerHeight >= document.documentElement.scrollHeight){
+      if((window.scrollY+ window.innerHeight) >= document.body.offsetHeight){
         page = page + 1;
         SearchPhotos(page);
       }
