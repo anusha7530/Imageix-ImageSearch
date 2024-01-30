@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery</title>
+    <title>Imageix</title>
     <link rel="stylesheet" href="./styles.css">
     <script
     src="https://code.jquery.com/jquery-3.7.1.js"
@@ -19,12 +19,15 @@
       </form>
     </header>
     <div id="gallery"></div>
+    <p id="error">No images found.Try something else.</p>
     <hr>
   
   <script>
     $("#myForm").submit(function(event){
       $("#load").css("visibility","visible");
       event.preventDefault();
+      $("#gallery").empty();
+      $("#error").css("visibility","hidden");
       var search = $("#search").val()
       var url ="https://api.unsplash.com/search/photos?query="+search+"&client_id=nuMKqJjmwd8vONBQowjp3qT_IWR52INOxDcZz66BwdY&per_page=150"
 
@@ -32,6 +35,11 @@
         method: 'GET',
         url: url,
         success: function(data){
+          data.results.forEach(photo => {
+             if(data.total === 0){
+            $("#error").css("visibility","visible");
+          }
+          console.log(data);
           data.results.forEach(photo => {
             $("#gallery").append(`
             <img src= "${photo.urls.regular}" />
