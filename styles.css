@@ -56,3 +56,8 @@ body {
   content: "";
   width: 350px;
 }
+#error{
+  visibility: hidden;
+  font-style: italic;
+  text-align: center;
+}
