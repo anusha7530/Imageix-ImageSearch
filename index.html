@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script
+    src="https://code.jquery.com/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script> 
+     </head>
+  <body>
+    <header class="header">
+      <h1>Imageix - Your Window to a World of Images</h1>
+      <form id="myForm" autocomplete="off">
+          <input type="text" class="searchbox" id="search" placeholder="Search Photos">
+          <button class="btn">Search</button>
+      </form>
+    </header>
+    <div id="gallery"></div>
+    <hr>
+  
+  <script>
+    $("#myForm").submit(function(event){
+      $("#load").css("visibility","visible");
+      event.preventDefault();
+      var search = $("#search").val()
+      var url ="https://api.unsplash.com/search/photos?query="+search+"&client_id=nuMKqJjmwd8vONBQowjp3qT_IWR52INOxDcZz66BwdY&per_page=150"
+
+      $.ajax({
+        method: 'GET',
+        url: url,
+        success: function(data){
+          data.results.forEach(photo => {
+            $("#gallery").append(`
+            <img src= "${photo.urls.regular}" />
+            `
+            )
+          });
+        }
+      })
+    })
+  </script>
+  </body>
+</html>
